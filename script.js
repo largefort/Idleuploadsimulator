@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var networkSpeedDisplay = document.getElementById('network-speed');
   var saveBtn = document.getElementById('save-btn');
   var loadBtn = document.getElementById('load-btn');
+  var downloadLink = document.getElementById('download-link');
 
   var uploadSpeed = 10; // Base upload speed in percentage per second
   var networkSpeed = 1; // Base network speed in Mbps
@@ -16,14 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
   var routerSpeedUpgradeCost = 100;
   var bitcoinDriverLevel = 1;
   var bitcoinDriverUpgradeInterval;
-
-  // Load saved data if available
-  loadGameData();
+  var uploadAmount = 0;
+  var selectedFiles = [];
 
   function updateProgress() {
     uploadAmount += uploadSpeed * networkSpeed;
     if (uploadAmount >= 100) {
       uploadAmount = 100;
+      clearInterval(progressInterval);
       message.textContent = 'Upload complete!';
       uploadBtn.disabled = false;
       credits += 10; // Credits earned per upload completion
@@ -40,59 +41,43 @@ document.addEventListener('DOMContentLoaded', function() {
     progressBar.textContent = '0%';
     uploadAmount = 0;
 
-    var fileInputs = document.getElementById('file-input').files;
-    var fileNames = Array.from(fileInputs).map(function(file) {
-      return file.name;
-    });
+    if (selectedFiles.length > 0) {
+      var fileNames = selectedFiles.map(function(file) {
+        return file.name;
+      });
 
-    // Update message with file names
-    if (fileNames.length > 0) {
+      // Update message with file names
       message.textContent = 'Uploading: ' + fileNames.join(', ');
+
+      // Calculate upload time based on network speed
+      var uploadTime = 100 / (uploadSpeed * networkSpeed);
+
+      // Simulate upload progress
+      var progressInterval = setInterval(function() {
+        updateProgress();
+      }, uploadTime * 1000);
+    } else {
+      message.textContent = 'No files selected.';
+      uploadBtn.disabled = false;
     }
-
-    // Calculate upload time based on network speed
-    var uploadTime = 100 / (uploadSpeed * networkSpeed);
-
-    // Simulate upload progress
-    var progressInterval = setInterval(function() {
-      uploadAmount += uploadSpeed * networkSpeed;
-      if (uploadAmount >= 100) {
-        uploadAmount = 100;
-        clearInterval(progressInterval);
-        message.textContent = 'Upload complete!';
-        uploadBtn.disabled = false;
-        credits += 10; // Credits earned per upload completion
-        creditsDisplay.textContent = credits;
-      }
-      progressBar.style.width = uploadAmount + '%';
-      progressBar.textContent = uploadAmount + '%';
-    }, uploadTime * 1000);
   }
 
   function upgradeBitcoinDriver() {
     if (credits >= bitcoinDriverUpgradeCost) {
       credits -= bitcoinDriverUpgradeCost;
       bitcoinDriverUpgradeCost *= 2;
-      uploadSpeed += 5; // Increase upload speed by 5 percentage per second
+      bitcoinDriverLevel++;
       creditsDisplay.textContent = credits;
       bitcoinDriverUpgradeBtn.textContent = 'Upgrade Bitcoin Driver (' + bitcoinDriverUpgradeCost + ' Credits)';
-      bitcoinDriverLevel++;
-
-      // Start automated credit generation based on Bitcoin driver level
-      if (bitcoinDriverLevel === 2) {
-        startBitcoinDriverUpgrade(2);
-      } else if (bitcoinDriverLevel === 3) {
-        startBitcoinDriverUpgrade(5);
-      } else if (bitcoinDriverLevel === 4) {
-        startBitcoinDriverUpgrade(10);
-      }
+      clearInterval(bitcoinDriverUpgradeInterval);
+      automateCredits(); // Start the upgraded bitcoin driver
     }
   }
 
-  function startBitcoinDriverUpgrade(creditAmount) {
-    clearInterval(bitcoinDriverUpgradeInterval);
+  function automateCredits() {
+    var automatedCredits = 1 * bitcoinDriverLevel; // Credits earned per second based on bitcoin driver level
     bitcoinDriverUpgradeInterval = setInterval(function() {
-      credits += creditAmount;
+      credits += automatedCredits;
       creditsDisplay.textContent = credits;
     }, 1000);
   }
@@ -140,9 +125,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  function createFakeFileText() {
+    var fakeFileText = document.getElementById('fake-file-text');
+
+    uploadBtn.addEventListener('click', function() {
+      if (selectedFiles.length > 0) {
+        var fileNames = selectedFiles.map(function(file) {
+          return file.name;
+        });
+        fakeFileText.textContent = fileNames.join(', ');
+      } else {
+        fakeFileText.textContent = 'No files selected.';
+      }
+    });
+  }
+
   uploadBtn.addEventListener('click', uploadFiles);
   bitcoinDriverUpgradeBtn.addEventListener('click', upgradeBitcoinDriver);
   routerSpeedUpgradeBtn.addEventListener('click', upgradeRouterSpeed);
   saveBtn.addEventListener('click', saveGameData);
   loadBtn.addEventListener('click', loadGameData);
+
+  // Initialize
+  createFakeFileText();
+  automateCredits();
 });
