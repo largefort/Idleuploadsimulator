@@ -40,6 +40,16 @@ document.addEventListener('DOMContentLoaded', function() {
     progressBar.textContent = '0%';
     uploadAmount = 0;
 
+    var fileInputs = document.getElementById('file-input').files;
+    var fileNames = Array.from(fileInputs).map(function(file) {
+      return file.name;
+    });
+
+    // Update message with file names
+    if (fileNames.length > 0) {
+      message.textContent = 'Uploading: ' + fileNames.join(', ');
+    }
+
     // Calculate upload time based on network speed
     var uploadTime = 100 / (uploadSpeed * networkSpeed);
 
