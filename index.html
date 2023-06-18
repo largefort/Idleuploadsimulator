@@ -1,55 +1,26 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
   <title>Idle Upload Simulator</title>
-
-  <link rel="stylesheet" type="text/css" href="style.css">
-
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-
 <body>
-
   <h1>Idle Upload Simulator</h1>
-
-  <div class="container">
-
-    <div class="upload-area">
-
-      <div class="progress-bar">
-
-        <div id="progress"></div>
-
-      </div>
-
-      <button id="upload-btn">Upload</button>
-
+  <div class="game-container">
+    <div id="progress-bar">
+      <div id="progress"></div>
     </div>
-
-    <div id="message"></div>
-
-    <div class="upgrades">
-
-      <h2>Upgrades</h2>
-
-      <div id="credits">0 Credits</div>
-
-      <button id="bitcoin-driver-upgrade">Upgrade Bitcoin Driver (50 Credits)</button>
-
-      <button id="router-speed-upgrade">Upgrade Router Speed (100 Credits)</button>
-       <button id="save-btn">Save Game</button>
-       <button id="load-btn">Load Game</button>
-      <div id="network-speed">Network Speed: 1 Mbps</div>
-
-    </div>
-
+    <p id="message"></p>
+    <input type="file" id="file-input" multiple>
+    <button id="upload-btn">Upload</button>
+    <p>Credits: <span id="credits">0</span></p>
+    <button id="bitcoin-driver-upgrade">Upgrade Bitcoin Driver (50 Credits)</button>
+    <button id="router-speed-upgrade">Upgrade Router Speed (100 Credits)</button>
+    <p id="network-speed">Network Speed: 1 Mbps</p>
+    <button id="save-btn">Save Game</button>
+    <button id="load-btn">Load Game</button>
   </div>
-
+  
   <script src="script.js"></script>
-
 </body>
-
 </html>
-
