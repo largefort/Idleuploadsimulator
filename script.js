@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var bitcoinDriverLevel = 1;
   var bitcoinDriverUpgradeInterval;
   var uploadAmount = 0;
-  var selectedFiles = [];
+  var fileCount = 0;
 
   function updateProgress() {
     uploadAmount += uploadSpeed * networkSpeed;
@@ -41,10 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
     progressBar.textContent = '0%';
     uploadAmount = 0;
 
-    if (selectedFiles.length > 0) {
-      var fileNames = selectedFiles.map(function(file) {
-        return file.name;
-      });
+    if (fileCount > 0) {
+      // Generate AI-generated file names
+      var fileNames = generateFileNames(fileCount);
 
       // Update message with file names
       message.textContent = 'Uploading: ' + fileNames.join(', ');
@@ -60,6 +59,27 @@ document.addEventListener('DOMContentLoaded', function() {
       message.textContent = 'No files selected.';
       uploadBtn.disabled = false;
     }
+  }
+
+  function generateFileNames(count) {
+    var fileNames = [];
+    for (var i = 0; i < count; i++) {
+      var fileName = generateRandomFileName();
+      fileNames.push(fileName);
+    }
+    return fileNames;
+  }
+
+  function generateRandomFileName() {
+    var adjectives = ['Awesome', 'Fantastic', 'Incredible', 'Amazing', 'Super'];
+    var nouns = ['File', 'Document', 'Report', 'Data'];
+    var extensions = ['.txt', '.pdf', '.doc', '.xlsx'];
+
+    var randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+    var randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+    var randomExtension = extensions[Math.floor(Math.random() * extensions.length)];
+
+    return randomAdjective + ' ' + randomNoun + randomExtension;
   }
 
   function upgradeBitcoinDriver() {
@@ -125,21 +145,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  function createFakeFileText() {
-    var fakeFileText = document.getElementById('fake-file-text');
-
-    uploadBtn.addEventListener('click', function() {
-      if (selectedFiles.length > 0) {
-        var fileNames = selectedFiles.map(function(file) {
-          return file.name;
-        });
-        fakeFileText.textContent = fileNames.join(', ');
-      } else {
-        fakeFileText.textContent = 'No files selected.';
-      }
-    });
-  }
-
   uploadBtn.addEventListener('click', uploadFiles);
   bitcoinDriverUpgradeBtn.addEventListener('click', upgradeBitcoinDriver);
   routerSpeedUpgradeBtn.addEventListener('click', upgradeRouterSpeed);
@@ -147,6 +152,5 @@ document.addEventListener('DOMContentLoaded', function() {
   loadBtn.addEventListener('click', loadGameData);
 
   // Initialize
-  createFakeFileText();
   automateCredits();
 });
