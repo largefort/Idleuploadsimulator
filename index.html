@@ -11,7 +11,11 @@
       <div id="progress"></div>
     </div>
     <p id="message"></p>
-    <input type="file" id="file-input" multiple>
+    <div class="file-uploader">
+      <input type="text" id="fake-file-input" readonly>
+      <label for="file-input" id="fake-file-btn">Browse</label>
+      <input type="file" id="file-input" multiple>
+    </div>
     <button id="upload-btn">Upload</button>
     <p>Credits: <span id="credits">0</span></p>
     <button id="bitcoin-driver-upgrade">Upgrade Bitcoin Driver (50 Credits)</button>
