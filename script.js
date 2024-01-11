@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   var progressBar = document.getElementById('progress');
   var message = document.getElementById('message');
   var fileSizeDisplay = document.getElementById('file-size'); // Added file size display element
@@ -21,19 +21,31 @@ document.addEventListener('DOMContentLoaded', function() {
   var uploadAmount = 0;
   var fileCount = 0;
   var fileSize = 0; // Initialize file size
+  var autoUploadInterval; // Interval for automatic file uploading
 
   function updateProgress() {
     uploadAmount += uploadSpeed * networkSpeed;
     if (uploadAmount >= 100) {
-      uploadAmount = 100;
+      uploadAmount = 0; // Reset upload amount for the next file
       clearInterval(progressInterval);
       message.textContent = 'Upload complete!';
       uploadBtn.disabled = false;
       credits += 10; // Credits earned per upload completion
       creditsDisplay.textContent = credits;
+      autoUpload(); // Start uploading the next file automatically
     }
     progressBar.style.width = uploadAmount + '%';
     progressBar.textContent = uploadAmount + '%';
+  }
+
+  function autoUpload() {
+    if (fileCount > 0) {
+      uploadFilesAutomatically();
+    } else {
+      message.textContent = 'All files uploaded!';
+      uploadBtn.disabled = false;
+      clearInterval(autoUploadInterval);
+    }
   }
 
   function uploadFilesAutomatically() {
@@ -41,13 +53,9 @@ document.addEventListener('DOMContentLoaded', function() {
     message.textContent = 'Uploading...';
     progressBar.style.width = '0';
     progressBar.textContent = '0%';
-    uploadAmount = 0;
-
-    // Set a random file count (for example, between 1 and 5)
-    fileCount = Math.floor(Math.random() * 5) + 1;
 
     // Generate AI-generated file names
-    var fileNames = generateFileNames(fileCount);
+    var fileNames = generateFileNames(1); // Upload one file at a time
 
     // Update message with file names
     message.textContent = 'Uploading: ' + fileNames.join(', ');
@@ -59,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var uploadTime = 100 / (uploadSpeed * networkSpeed);
 
     // Simulate upload progress
-    var progressInterval = setInterval(function() {
+    var progressInterval = setInterval(function () {
       updateProgress();
       // Update file size during upload
       fileSize += (uploadSpeed * networkSpeed) / 100; // Assuming 1 MB file for simplicity
@@ -79,8 +87,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  function startAutoUpload() {
+    autoUploadInterval = setInterval(autoUpload, 5000); // Auto-upload every 5 seconds
+  }
+
+  function stopAutoUpload() {
+    clearInterval(autoUploadInterval);
+    message.textContent = 'Auto-upload stopped.';
+    uploadBtn.disabled = false;
+  }
+
   function uploadFiles() {
-    uploadFilesAutomatically();
+    // Set a random file count (for example, between 1 and 5)
+    fileCount = Math.floor(Math.random() * 5) + 1;
+    startAutoUpload(); // Start automatic file uploading
   }
 
   function generateFileNames(count) {
@@ -118,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function automateCredits() {
     var automatedCredits = 1 * bitcoinDriverLevel; // Credits earned per second based on bitcoin driver level
-    bitcoinDriverUpgradeInterval = setInterval(function() {
+    bitcoinDriverUpgradeInterval = setInterval(function () {
       credits += automatedCredits;
       creditsDisplay.textContent = credits;
     }, 1000);
