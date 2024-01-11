@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   var progressBar = document.getElementById('progress');
   var message = document.getElementById('message');
+  var fileSizeDisplay = document.getElementById('file-size'); // Added file size display element
   var uploadBtn = document.getElementById('upload-btn');
   var creditsDisplay = document.getElementById('credits');
   var bitcoinDriverUpgradeBtn = document.getElementById('bitcoin-driver-upgrade');
@@ -34,31 +35,39 @@ document.addEventListener('DOMContentLoaded', function() {
     progressBar.textContent = uploadAmount + '%';
   }
 
-  function uploadFiles() {
+  function uploadFilesAutomatically() {
     uploadBtn.disabled = true;
     message.textContent = 'Uploading...';
     progressBar.style.width = '0';
     progressBar.textContent = '0%';
     uploadAmount = 0;
 
-    if (fileCount > 0) {
-      // Generate AI-generated file names
-      var fileNames = generateFileNames(fileCount);
+    // Set a random file count (for example, between 1 and 5)
+    fileCount = Math.floor(Math.random() * 5) + 1;
 
-      // Update message with file names
-      message.textContent = 'Uploading: ' + fileNames.join(', ');
+    // Generate AI-generated file names
+    var fileNames = generateFileNames(fileCount);
 
-      // Calculate upload time based on network speed
-      var uploadTime = 100 / (uploadSpeed * networkSpeed);
+    // Update message with file names
+    message.textContent = 'Uploading: ' + fileNames.join(', ');
 
-      // Simulate upload progress
-      var progressInterval = setInterval(function() {
-        updateProgress();
-      }, uploadTime * 1000);
-    } else {
-      message.textContent = 'No files selected.';
-      uploadBtn.disabled = false;
-    }
+    // Display initial file size
+    fileSizeDisplay.textContent = 'File Size: 0 MB';
+
+    // Calculate upload time based on network speed
+    var uploadTime = 100 / (uploadSpeed * networkSpeed);
+
+    // Simulate upload progress
+    var progressInterval = setInterval(function() {
+      updateProgress();
+      // Update file size during upload
+      var currentFileSize = (uploadAmount / 100) * 10; // Assume a 10 MB file for simplicity
+      fileSizeDisplay.textContent = 'File Size: ' + currentFileSize.toFixed(2) + ' MB';
+    }, uploadTime * 1000);
+  }
+
+  function uploadFiles() {
+    uploadFilesAutomatically();
   }
 
   function generateFileNames(count) {
