@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var fileCount = 0;
   var fileSize = 0; // Initialize file size
   var autoUploadInterval; // Interval for automatic file uploading
+  var progressInterval; // Declare progressInterval globally
 
   function updateProgress() {
     uploadAmount += uploadSpeed * networkSpeed;
@@ -67,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var uploadTime = 100 / (uploadSpeed * networkSpeed);
 
     // Simulate upload progress
-    var progressInterval = setInterval(function () {
+    progressInterval = setInterval(function () {
       updateProgress();
       // Update file size during upload
       fileSize += (uploadSpeed * networkSpeed) / 100; // Assuming 1 MB file for simplicity
