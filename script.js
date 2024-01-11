@@ -7,8 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var bitcoinDriverUpgradeBtn = document.getElementById('bitcoin-driver-upgrade');
   var routerSpeedUpgradeBtn = document.getElementById('router-speed-upgrade');
   var networkSpeedDisplay = document.getElementById('network-speed');
-  var saveBtn = document.getElementById('save-btn');
-  var loadBtn = document.getElementById('load-btn');
   var downloadLink = document.getElementById('download-link');
 
   var uploadSpeed = 10; // Base upload speed in percentage per second
@@ -156,44 +154,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function saveGameData() {
-    var gameData = {
-      uploadSpeed: uploadSpeed,
-      networkSpeed: networkSpeed,
-      credits: credits,
-      bitcoinDriverUpgradeCost: bitcoinDriverUpgradeCost,
-      routerSpeedUpgradeCost: routerSpeedUpgradeCost,
-      bitcoinDriverLevel: bitcoinDriverLevel
-    };
-    localStorage.setItem('gameData', JSON.stringify(gameData));
-    alert('Game data saved successfully!');
-  }
-
-  function loadGameData() {
-    var savedGameData = localStorage.getItem('gameData');
-    if (savedGameData) {
-      var gameData = JSON.parse(savedGameData);
-      uploadSpeed = gameData.uploadSpeed;
-      networkSpeed = gameData.networkSpeed;
-      credits = gameData.credits;
-      bitcoinDriverUpgradeCost = gameData.bitcoinDriverUpgradeCost;
-      routerSpeedUpgradeCost = gameData.routerSpeedUpgradeCost;
-      bitcoinDriverLevel = gameData.bitcoinDriverLevel;
-
-      // Update display with loaded data
-      creditsDisplay.textContent = credits;
-      bitcoinDriverUpgradeBtn.textContent = 'Upgrade Bitcoin Driver (' + bitcoinDriverUpgradeCost + ' Credits)';
-      routerSpeedUpgradeBtn.textContent = 'Upgrade Router Speed (' + routerSpeedUpgradeCost + ' Credits)';
-      networkSpeedDisplay.textContent = 'Network Speed: ' + networkSpeed + ' Mbps';
-    }
-  }
-
   uploadBtn.addEventListener('click', uploadFiles);
   bitcoinDriverUpgradeBtn.addEventListener('click', upgradeBitcoinDriver);
   routerSpeedUpgradeBtn.addEventListener('click', upgradeRouterSpeed);
-  saveBtn.addEventListener('click', saveGameData);
-  loadBtn.addEventListener('click', loadGameData);
 
   // Initialize
   automateCredits();
+
+  // Automatically load player's progress from localStorage
+  var savedGameData = localStorage.getItem('gameData');
+  if (savedGameData) {
+    var gameData = JSON.parse(savedGameData);
+    uploadSpeed = gameData.uploadSpeed;
+    networkSpeed = gameData.networkSpeed;
+    credits = gameData.credits;
+    bitcoinDriverUpgradeCost = gameData.bitcoinDriverUpgradeCost;
+    routerSpeedUpgradeCost = gameData.routerSpeedUpgradeCost;
+    bitcoinDriverLevel = gameData.bitcoinDriverLevel;
+
+    // Update display with loaded data
+    creditsDisplay.textContent = credits;
+    bitcoinDriverUpgradeBtn.textContent = 'Upgrade Bitcoin Driver (' + bitcoinDriverUpgradeCost + ' Credits)';
+    routerSpeedUpgradeBtn.textContent = 'Upgrade Router Speed (' + routerSpeedUpgradeCost + ' Credits)';
+    networkSpeedDisplay.textContent = 'Network Speed: ' + networkSpeed + ' Mbps';
+  }
 });
