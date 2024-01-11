@@ -136,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function automateCredits() {
+    clearInterval(bitcoinDriverUpgradeInterval); // Clear any existing interval
     var automatedCredits = 1 * bitcoinDriverLevel; // Credits earned per second based on bitcoin driver level
     bitcoinDriverUpgradeInterval = setInterval(function () {
       credits += automatedCredits;
