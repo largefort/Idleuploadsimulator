@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var bitcoinDriverUpgradeInterval;
   var uploadAmount = 0;
   var fileCount = 0;
+  var progressInterval; // Declare progressInterval outside the functions
 
   function updateProgress() {
     uploadAmount += uploadSpeed * networkSpeed;
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var uploadTime = 100 / (uploadSpeed * networkSpeed);
 
     // Simulate upload progress
-    var progressInterval = setInterval(function() {
+    progressInterval = setInterval(function() {
       updateProgress();
       // Update file size during upload
       var currentFileSize = (uploadAmount / 100) * 10; // Assume a 10 MB file for simplicity
