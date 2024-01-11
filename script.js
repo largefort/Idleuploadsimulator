@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var bitcoinDriverUpgradeInterval;
   var uploadAmount = 0;
   var fileCount = 0;
-  var progressInterval; // Declare progressInterval outside the functions
+  var fileSize = 0; // Initialize file size
 
   function updateProgress() {
     uploadAmount += uploadSpeed * networkSpeed;
@@ -59,12 +59,24 @@ document.addEventListener('DOMContentLoaded', function() {
     var uploadTime = 100 / (uploadSpeed * networkSpeed);
 
     // Simulate upload progress
-    progressInterval = setInterval(function() {
+    var progressInterval = setInterval(function() {
       updateProgress();
       // Update file size during upload
-      var currentFileSize = (uploadAmount / 100) * 10; // Assume a 10 MB file for simplicity
-      fileSizeDisplay.textContent = 'File Size: ' + currentFileSize.toFixed(2) + ' MB';
+      fileSize += (uploadSpeed * networkSpeed) / 100; // Assuming 1 MB file for simplicity
+      updateFileSizeDisplay();
     }, uploadTime * 1000);
+  }
+
+  function updateFileSizeDisplay() {
+    if (fileSize < 1) {
+      fileSizeDisplay.textContent = 'File Size: ' + (fileSize * 1024).toFixed(2) + ' KB';
+    } else if (fileSize < 1024) {
+      fileSizeDisplay.textContent = 'File Size: ' + fileSize.toFixed(2) + ' MB';
+    } else if (fileSize < 1024 * 1024) {
+      fileSizeDisplay.textContent = 'File Size: ' + (fileSize / 1024).toFixed(2) + ' GB';
+    } else {
+      fileSizeDisplay.textContent = 'File Size: ' + (fileSize / (1024 * 1024)).toFixed(2) + ' TB';
+    }
   }
 
   function uploadFiles() {
