@@ -1,0 +1,75 @@
+body {
+  background-color: #262626; /* Modern dark background color */
+  color: #fff; /* Text color */
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #363636; /* Slightly lighter background color for the container */
+  border-radius: 10px; /* Add rounded corners to the container */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+}
+
+h1 {
+  text-align: center;
+  color: #4caf50; /* Modern green text color for the title */
+}
+
+.stats {
+  margin-bottom: 20px;
+}
+
+.controls {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.btn-dark {
+  background-color: #262626; /* Modern dark background color for buttons */
+  color: #fff; /* Text color for buttons */
+  border-color: #4caf50; /* Border color for buttons */
+}
+
+.btn-dark:hover {
+  background-color: #4caf50; /* Modern green background color on hover */
+  color: #fff; /* Text color on hover */
+}
+
+.progress-container {
+  background-color: #f2f2f2;
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  background-color: #4caf50;
+  height: 100%;
+  width: 0;
+}
+
+#message {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#file-names-container {
+  display: none;
+  margin-top: 20px;
+}
+
+#file-names-container h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#file-names-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#file-names-list li {
+  margin-bottom: 5px;
+}
