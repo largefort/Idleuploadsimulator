@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var bitcoinDriverUpgradeBtn = document.getElementById('bitcoin-driver-upgrade');
   var routerSpeedUpgradeBtn = document.getElementById('router-speed-upgrade');
   var networkSpeedDisplay = document.getElementById('network-speed');
-  var downloadLink = document.getElementById('download-link');  // Added this line
+  var downloadLink = document.getElementById('download-link');
 
   var uploadSpeed = 10;
   var networkSpeed = 1;
