@@ -1,6 +1,4 @@
-Certainly! To make the game save itself, you can use the `beforeunload` event to trigger the saveGameData function before the page is unloaded (e.g., when the user closes the tab or refreshes the page). Here's the modified JavaScript code:
 
-```javascript
 document.addEventListener('DOMContentLoaded', function () {
   var progressBar = document.getElementById('progress');
   var message = document.getElementById('message');
@@ -211,5 +209,3 @@ document.addEventListener('DOMContentLoaded', function () {
   automateCredits();
 });
 ```
-
-This modification ensures that the `saveGameData` function is called both when the user clicks the download link and when the page is about to be unloaded (handled by the `beforeunload` event). This way, the game data will be saved automatically.
