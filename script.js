@@ -1,3 +1,6 @@
+Certainly! To make the game save itself, you can use the `beforeunload` event to trigger the saveGameData function before the page is unloaded (e.g., when the user closes the tab or refreshes the page). Here's the modified JavaScript code:
+
+```javascript
 document.addEventListener('DOMContentLoaded', function () {
   var progressBar = document.getElementById('progress');
   var message = document.getElementById('message');
@@ -147,6 +150,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // Function to save game data
+  function saveGameData() {
+    var gameData = {
+      uploadSpeed: uploadSpeed,
+      networkSpeed: networkSpeed,
+      credits: credits,
+      bitcoinDriverUpgradeCost: bitcoinDriverUpgradeCost,
+      routerSpeedUpgradeCost: routerSpeedUpgradeCost,
+      bitcoinDriverLevel: bitcoinDriverLevel
+    };
+    localStorage.setItem('gameData', JSON.stringify(gameData));
+    alert('Game data saved successfully!');
+  }
+
+  // Function to load game data
+  function loadGameData() {
+    var savedGameData = localStorage.getItem('gameData');
+    if (savedGameData) {
+      var gameData = JSON.parse(savedGameData);
+      uploadSpeed = gameData.uploadSpeed;
+      networkSpeed = gameData.networkSpeed;
+      credits = gameData.credits;
+      bitcoinDriverUpgradeCost = gameData.bitcoinDriverUpgradeCost;
+      routerSpeedUpgradeCost = gameData.routerSpeedUpgradeCost;
+      bitcoinDriverLevel = gameData.bitcoinDriverLevel;
+
+      creditsDisplay.textContent = credits;
+      bitcoinDriverUpgradeBtn.textContent = 'Upgrade Bitcoin Driver (' + bitcoinDriverUpgradeCost + ' Credits)';
+      routerSpeedUpgradeBtn.textContent = 'Upgrade Router Speed (' + routerSpeedUpgradeCost + ' Credits)';
+      networkSpeedDisplay.textContent = 'Network Speed: ' + networkSpeed + ' Mbps';
+    }
+  }
+
   // Event listener for the download link
   if (downloadLink) {
     downloadLink.addEventListener('click', saveGameData);
@@ -154,7 +190,14 @@ document.addEventListener('DOMContentLoaded', function () {
     console.error("downloadLink element not found");
   }
 
-  uploadBtn.addEventListener('click', uploadFiles);
+  // Event listener for beforeunload to save the game data
+  window.addEventListener('beforeunload', function () {
+    saveGameData();
+  });
+
+  uploadBtn.addEventListener
+
+('click', uploadFiles);
   bitcoinDriverUpgradeBtn.addEventListener('click', upgradeBitcoinDriver);
   routerSpeedUpgradeBtn.addEventListener('click', upgradeRouterSpeed);
 
@@ -167,3 +210,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Initialize
   automateCredits();
 });
+```
+
+This modification ensures that the `saveGameData` function is called both when the user clicks the download link and when the page is about to be unloaded (handled by the `beforeunload` event). This way, the game data will be saved automatically.
