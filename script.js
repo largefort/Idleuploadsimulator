@@ -22,50 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var autoUploadInterval;
   var progressInterval;
 
-  // Function to save game data
-  function saveGameData() {
-    var gameData = {
-      uploadSpeed: uploadSpeed,
-      networkSpeed: networkSpeed,
-      credits: credits,
-      bitcoinDriverUpgradeCost: bitcoinDriverUpgradeCost,
-      routerSpeedUpgradeCost: routerSpeedUpgradeCost,
-      bitcoinDriverLevel: bitcoinDriverLevel
-    };
-    localStorage.setItem('gameData', JSON.stringify(gameData));
-    alert('Game data saved successfully!');
-  }
-
-  // Function to load game data
-  function loadGameData() {
-    var savedGameData = localStorage.getItem('gameData');
-    if (savedGameData) {
-      var gameData = JSON.parse(savedGameData);
-      uploadSpeed = gameData.uploadSpeed;
-      networkSpeed = gameData.networkSpeed;
-      credits = gameData.credits;
-      bitcoinDriverUpgradeCost = gameData.bitcoinDriverUpgradeCost;
-      routerSpeedUpgradeCost = gameData.routerSpeedUpgradeCost;
-      bitcoinDriverLevel = gameData.bitcoinDriverLevel;
-
-      creditsDisplay.textContent = credits;
-      bitcoinDriverUpgradeBtn.textContent = 'Upgrade Bitcoin Driver (' + bitcoinDriverUpgradeCost + ' Credits)';
-      routerSpeedUpgradeBtn.textContent = 'Upgrade Router Speed (' + routerSpeedUpgradeCost + ' Credits)';
-      networkSpeedDisplay.textContent = 'Network Speed: ' + networkSpeed + ' Mbps';
-    }
-  }
-
-  // Event listener for the download link
-  downloadLink.addEventListener('click', saveGameData);
-
-  // Event listener for the upload button
-  uploadBtn.addEventListener('click', uploadFiles);
-
-  // Event listeners for the upgrade buttons
-  bitcoinDriverUpgradeBtn.addEventListener('click', upgradeBitcoinDriver);
-  routerSpeedUpgradeBtn.addEventListener('click', upgradeRouterSpeed);
-
-  // Function to update progress during uploading
   function updateProgress() {
     uploadAmount += uploadSpeed * networkSpeed;
     if (uploadAmount >= 100) {
@@ -81,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
     progressBar.textContent = uploadAmount + '%';
   }
 
-  // Function to auto-upload files
   function autoUpload() {
     if (fileCount > 0) {
       uploadFilesAutomatically();
@@ -92,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Function to simulate uploading files automatically
   function uploadFilesAutomatically() {
     uploadBtn.disabled = true;
     message.textContent = 'Uploading...';
@@ -114,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }, uploadTime * 1000);
   }
 
-  // Function to update file size display during upload
   function updateFileSizeDisplay() {
     if (fileSize < 1) {
       fileSizeDisplay.textContent = 'File Size: ' + (fileSize * 1024).toFixed(2) + ' KB';
@@ -127,25 +80,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Function to start auto-upload
   function startAutoUpload() {
     autoUploadInterval = setInterval(autoUpload, 5000);
   }
 
-  // Function to stop auto-upload
   function stopAutoUpload() {
     clearInterval(autoUploadInterval);
     message.textContent = 'Auto-upload stopped.';
     uploadBtn.disabled = false;
   }
 
-  // Function to initiate uploading files
   function uploadFiles() {
     fileCount = Math.floor(Math.random() * 5) + 1;
     startAutoUpload();
   }
 
-  // Function to generate random file names
   function generateFileNames(count) {
     var fileNames = [];
     for (var i = 0; i < count; i++) {
@@ -155,7 +104,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return fileNames;
   }
 
-  // Function to generate a random file name
   function generateRandomFileName() {
     var adjectives = ['Awesome', 'Fantastic', 'Incredible', 'Amazing', 'Super'];
     var nouns = ['File', 'Document', 'Report', 'Data'];
@@ -168,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return randomAdjective + ' ' + randomNoun + randomExtension;
   }
 
-  // Function to upgrade the Bitcoin driver
   function upgradeBitcoinDriver() {
     if (credits >= bitcoinDriverUpgradeCost) {
       credits -= bitcoinDriverUpgradeCost;
@@ -181,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Function to automate credits based on the Bitcoin driver level
   function automateCredits() {
     var automatedCredits = 1 * bitcoinDriverLevel;
     bitcoinDriverUpgradeInterval = setInterval(function () {
@@ -190,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 1000);
   }
 
-  // Function to upgrade router speed
   function upgradeRouterSpeed() {
     if (credits >= routerSpeedUpgradeCost) {
       credits -= routerSpeedUpgradeCost;
@@ -201,6 +146,17 @@ document.addEventListener('DOMContentLoaded', function () {
       networkSpeedDisplay.textContent = 'Network Speed: ' + networkSpeed + ' Mbps';
     }
   }
+
+  // Event listener for the download link
+  if (downloadLink) {
+    downloadLink.addEventListener('click', saveGameData);
+  } else {
+    console.error("downloadLink element not found");
+  }
+
+  uploadBtn.addEventListener('click', uploadFiles);
+  bitcoinDriverUpgradeBtn.addEventListener('click', upgradeBitcoinDriver);
+  routerSpeedUpgradeBtn.addEventListener('click', upgradeRouterSpeed);
 
   // Function to save game data every 5 seconds
   setInterval(saveGameData, 5000);
