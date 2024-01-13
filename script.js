@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
   var progressBar = document.getElementById('progress');
   var message = document.getElementById('message');
@@ -156,10 +155,11 @@ document.addEventListener('DOMContentLoaded', function () {
       credits: credits,
       bitcoinDriverUpgradeCost: bitcoinDriverUpgradeCost,
       routerSpeedUpgradeCost: routerSpeedUpgradeCost,
-      bitcoinDriverLevel: bitcoinDriverLevel
+      bitcoinDriverLevel: bitcoinDriverLevel,
+      fileSize: fileSize,
+      autoUploadActive: !!autoUploadInterval // Save whether auto-upload is active
     };
     localStorage.setItem('gameData', JSON.stringify(gameData));
-    alert('Game data saved successfully!');
   }
 
   // Function to load game data
@@ -173,11 +173,16 @@ document.addEventListener('DOMContentLoaded', function () {
       bitcoinDriverUpgradeCost = gameData.bitcoinDriverUpgradeCost;
       routerSpeedUpgradeCost = gameData.routerSpeedUpgradeCost;
       bitcoinDriverLevel = gameData.bitcoinDriverLevel;
+      fileSize = gameData.fileSize;
 
       creditsDisplay.textContent = credits;
       bitcoinDriverUpgradeBtn.textContent = 'Upgrade Bitcoin Driver (' + bitcoinDriverUpgradeCost + ' Credits)';
       routerSpeedUpgradeBtn.textContent = 'Upgrade Router Speed (' + routerSpeedUpgradeCost + ' Credits)';
       networkSpeedDisplay.textContent = 'Network Speed: ' + networkSpeed + ' Mbps';
+
+      if (gameData.autoUploadActive) {
+        startAutoUpload();
+      }
     }
   }
 
@@ -193,9 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
     saveGameData();
   });
 
-  uploadBtn.addEventListener
-
-('click', uploadFiles);
+  uploadBtn.addEventListener('click', uploadFiles);
   bitcoinDriverUpgradeBtn.addEventListener('click', upgradeBitcoinDriver);
   routerSpeedUpgradeBtn.addEventListener('click', upgradeRouterSpeed);
 
@@ -208,4 +211,4 @@ document.addEventListener('DOMContentLoaded', function () {
   // Initialize
   automateCredits();
 });
-```
+
