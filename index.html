@@ -4,35 +4,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Add Bootstrap CSS link -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <title>Upload Simulator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha384-e1uPlcYoAe7FkLAJt2om6kLxlF9X0LBRhxLrs1P3Z3GpIIJSmPn8aFikJ0KQuB6F" crossorigin="anonymous">
 
   <style>
-    /* Custom styles for dark and green buttons and dark background */
     body {
-      background-color: #343a40; /* Dark background color */
-      color: #fff; /* Text color */
+      background-color: #343a40;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
     }
 
     .container {
       margin-top: 50px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
     }
 
     h1 {
-      color: #4caf50; /* Green text color for the title */
+      color: #4caf50;
+      font-size: 2.5em;
+      margin-bottom: 20px;
     }
 
     .btn-dark {
-      background-color: #343a40; /* Dark background color for buttons */
-      color: #fff; /* Text color for buttons */
-      border-color: #4caf50; /* Border color for buttons */
+      background-color: #343a40;
+      color: #fff;
+      border-color: #4caf50;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     .btn-dark:hover {
-      background-color: #4caf50; /* Green background color on hover */
-      color: #fff; /* Text color on hover */
+      background-color: #4caf50;
+      color: #fff;
+    }
+
+    .btn-icon {
+      margin-right: 5px;
+    }
+
+    .progress-container {
+      margin-top: 20px;
+    }
+
+    .progress-bar {
+      background-color: #4caf50;
+      border-radius: 5px;
+    }
+
+    #file-names-container {
+      margin-top: 20px;
+    }
+
+    #file-names-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #file-names-list li {
+      margin-bottom: 5px;
     }
   </style>
 </head>
@@ -45,16 +77,16 @@
       <p id="network-speed">Network Speed: 1 Mbps</p>
     </div>
     <div class="controls">
-      <!-- Apply "btn-dark" class for dark button style -->
-      <button id="upload-btn" class="btn btn-dark">Upload</button>
-      <button id="bitcoin-driver-upgrade" class="btn btn-dark">Upgrade Bitcoin Driver (50 Credits)</button>
-      <button id="router-speed-upgrade" class="btn btn-dark">Upgrade Router Speed (100 Credits)</button>
+      <button id="upload-btn" class="btn btn-dark"><i class="fas fa-upload btn-icon"></i>Upload</button>
+      <button id="bitcoin-driver-upgrade" class="btn btn-dark"><i class="fas fa-arrow-up btn-icon"></i>Upgrade Bitcoin
+        Driver (50 Credits)</button>
+      <button id="router-speed-upgrade" class="btn btn-dark"><i class="fas fa-cogs btn-icon"></i>Upgrade Router Speed
+        (100 Credits)</button>
     </div>
     <div class="progress-container">
       <div class="progress-bar" id="progress" style="width: 0;"></div>
     </div>
     <p id="message"></p>
-    <!-- Display file size here -->
     <p id="file-size">File Size: 0 MB</p>
     <div id="file-names-container" style="display: none;">
       <h3>AI-generated File Names:</h3>
@@ -62,7 +94,6 @@
     </div>
   </div>
 
-  <!-- Add Bootstrap JS and Popper.js scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
 </body>
