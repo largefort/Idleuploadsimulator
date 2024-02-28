@@ -14,7 +14,34 @@ document.addEventListener('DOMContentLoaded', function() {
   var routerSpeedUpgradeCost = 100;
   var bitcoinDriverLevel = 1;
   var bitcoinDriverUpgradeInterval;
+  var uploadAmount = 0;
 
+  // Function to save game state
+  function saveGameState() {
+    localStorage.setItem('gameState', JSON.stringify({
+      credits: credits,
+      bitcoinDriverUpgradeCost: bitcoinDriverUpgradeCost,
+      routerSpeedUpgradeCost: routerSpeedUpgradeCost,
+      bitcoinDriverLevel: bitcoinDriverLevel,
+      uploadAmount: uploadAmount
+    }));
+  }
+
+  // Function to load game state
+  function loadGameState() {
+    var savedState = localStorage.getItem('gameState');
+    if (savedState) {
+      var gameState = JSON.parse(savedState);
+      credits = gameState.credits;
+      bitcoinDriverUpgradeCost = gameState.bitcoinDriverUpgradeCost;
+      routerSpeedUpgradeCost = gameState.routerSpeedUpgradeCost;
+      bitcoinDriverLevel = gameState.bitcoinDriverLevel;
+      uploadAmount = gameState.uploadAmount;
+      updateCreditsDisplay();
+    }
+  }
+
+  // Update credits display
   function updateCreditsDisplay() {
     var formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -35,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     progressBar.style.width = uploadAmount + '%';
     progressBar.textContent = uploadAmount + '%';
+    saveGameState(); // Save game state on progress update
   }
 
   function uploadFiles() {
@@ -56,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       progressBar.style.width = uploadAmount + '%';
       progressBar.textContent = uploadAmount + '%';
+      saveGameState(); // Save game state on progress update
     }, uploadTime * 1000);
   }
 
@@ -74,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } else if (bitcoinDriverLevel === 4) {
         startBitcoinDriverUpgrade(10);
       }
+      saveGameState(); // Save game state after upgrade
     }
   }
 
@@ -93,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
       updateCreditsDisplay();
       routerSpeedUpgradeBtn.textContent = 'Upgrade Router Speed (' + routerSpeedUpgradeCost + ' Credits)';
       networkSpeedDisplay.textContent = 'Network Speed: ' + networkSpeed + ' Mbps';
+      saveGameState(); // Save game state after upgrade
     }
   }
 
@@ -100,10 +131,8 @@ document.addEventListener('DOMContentLoaded', function() {
   bitcoinDriverUpgradeBtn.addEventListener('click', upgradeBitcoinDriver);
   routerSpeedUpgradeBtn.addEventListener('click', upgradeRouterSpeed);
 
-  // Initialize credits display
-  updateCreditsDisplay();
-
-});
+  // Load game state on page load
+  loadGameState();
 
 });
 
