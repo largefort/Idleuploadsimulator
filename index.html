@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     integrity="sha384-e1uPlcYoAe7FkLAJt2om6kLxlF9X0LBRhxLrs1P3Z3GpIIJSmPn8aFikJ0KQuB6F" crossorigin="anonymous">
-
+  
   <style>
     body {
       background-color: #343a40;
@@ -66,6 +66,33 @@
     #file-names-list li {
       margin-bottom: 5px;
     }
+
+    /* Mobile specific styles */
+    @media (max-width: 768px) {
+      .container {
+        margin-top: 20px;
+        padding: 10px;
+        box-shadow: none;
+      }
+
+      h1 {
+        font-size: 1.5em; /* Smaller font size */
+        margin-bottom: 10px;
+      }
+
+      .btn-dark {
+        font-size: 14px;
+        padding: 10px 15px; /* Adjust button padding */
+      }
+
+      .progress-container {
+        margin-top: 10px;
+      }
+
+      #file-names-list {
+        font-size: 14px; /* Smaller font for list items */
+      }
+    }
   </style>
 </head>
 
@@ -78,10 +105,8 @@
     </div>
     <div class="controls">
       <button id="upload-btn" class="btn btn-dark"><i class="fas fa-upload btn-icon"></i>Upload</button>
-      <button id="bitcoin-driver-upgrade" class="btn btn-dark"><i class="fas fa-arrow-up btn-icon"></i>Upgrade Bitcoin
-        Driver (50 Credits)</button>
-      <button id="router-speed-upgrade" class="btn btn-dark"><i class="fas fa-cogs btn-icon"></i>Upgrade Router Speed
-        (100 Credits)</button>
+      <button id="bitcoin-driver-upgrade" class="btn btn-dark"><i class="fas fa-arrow-up btn-icon"></i>Upgrade Bitcoin Driver (50 Credits)</button>
+      <button id="router-speed-upgrade" class="btn btn-dark"><i class="fas fa-cogs btn-icon"></i>Upgrade Router Speed (100 Credits)</button>
     </div>
     <div class="progress-container">
       <div class="progress-bar" id="progress" style="width: 0;"></div>
@@ -99,4 +124,3 @@
 </body>
 
 </html>
-
